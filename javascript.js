@@ -32,16 +32,16 @@ function playRound(humanChoice, computerChoice) {
    (humanChoice === 'paper' && computerChoice === 'rock') || 
    (humanChoice === 'scissors' && computerChoice === 'paper')) {
     console.log(`You win! ${capitalizeFirstLetter(humanChoice)} beats ${computerChoice}`);
-    humanChoice++;
+    humanScore++;
    } else {
     console.log(`You lose! ${capitalizeFirstLetter(computerChoice)} beats ${humanChoice}`);
-    computerChoice++;
+    computerScore++;
    }
 }
 
 function test() {
-  const humanSelection = getHumanChoice();
-  const computerSelection = getComputerChoice();
+  let humanSelection = getHumanChoice();
+  let computerSelection = getComputerChoice();
   playRound(humanSelection, computerSelection);
 }
 
@@ -49,5 +49,9 @@ function playGame() {
   for (let i = 0; i < 5; i++) {
     test();
   }
-  console.log(``)
+  humanScore > computerScore ? console.log(`You win! ${humanScore} : ${computerScore}`) : 
+  humanScore < computerScore ? console.log(`You lose! ${humanScore} : ${computerScore}`) :
+  console.log(`You tie! ${humanScore} : ${computerScore}`);
 }
+
+playGame();
