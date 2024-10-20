@@ -20,38 +20,45 @@ function getHumanChoice() {
 
 let humanScore = 0;
 let computerScore = 0;
+let games = 0;
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function playRound(humanChoice, computerChoice) {
+function playRound(elem) {
+  games++;
+  const humanChoice = elem.value;
+  const computerChoice = getComputerChoice();
+  const output = document.createElement("div");
+  const bod = document.querySelector("body");
+  bod.appendChild(output);
   if (humanChoice === computerChoice) {
+    output.innerText = `You tie! ${capitalizeFirstLetter(humanChoice)} is the same as ${computerChoice}`;
     console.log(`You tie! ${capitalizeFirstLetter(humanChoice)} is the same as ${computerChoice}`);
   } else if ((humanChoice  === 'rock' && computerChoice === 'scissors') ||
    (humanChoice === 'paper' && computerChoice === 'rock') || 
    (humanChoice === 'scissors' && computerChoice === 'paper')) {
+    output.innerText = `You win! ${capitalizeFirstLetter(humanChoice)} beats ${computerChoice}`;
     console.log(`You win! ${capitalizeFirstLetter(humanChoice)} beats ${computerChoice}`);
     humanScore++;
    } else {
+    output.innerText = `You lose! ${capitalizeFirstLetter(computerChoice)} beats ${humanChoice}`;
     console.log(`You lose! ${capitalizeFirstLetter(computerChoice)} beats ${humanChoice}`);
     computerScore++;
    }
+   if (games === 5) {
+    const finalScore = document.createElement("div");
+    bod.appendChild(finalScore);
+    const winner = humanScore > computerScore ? 'You win!' : humanScore < computerScore ? 'You lose!' : 'You tie!';
+    finalScore.innerText = winner + ` The score is You: ${humanScore} Computer: ${computerScore}`;
+    console.log(`The score is You: ${humanScore} Computer: ${computerScore}`);
+   }
 }
 
-function test() {
-  let humanSelection = getHumanChoice();
-  let computerSelection = getComputerChoice();
-  playRound(humanSelection, computerSelection);
+const choiceList = document.querySelectorAll("button");
+for (let i = 0; i < choiceList.length; i++) {
+  choiceList[i].addEventListener('click', function (e) {
+    playRound(this);
+  });
 }
-
-function playGame() {
-  for (let i = 0; i < 5; i++) {
-    test();
-  }
-  humanScore > computerScore ? console.log(`You win! ${humanScore} : ${computerScore}`) : 
-  humanScore < computerScore ? console.log(`You lose! ${humanScore} : ${computerScore}`) :
-  console.log(`You tie! ${humanScore} : ${computerScore}`);
-}
-
-playGame();
